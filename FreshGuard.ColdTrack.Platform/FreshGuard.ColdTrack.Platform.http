@@ -1,0 +1,6 @@
+@FreshGuard.ColdTrack.Platform_HostAddress = http://localhost:5108
+
+GET {{FreshGuard.ColdTrack.Platform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
