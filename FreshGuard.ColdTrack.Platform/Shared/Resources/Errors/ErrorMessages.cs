@@ -1,4 +1,4 @@
-namespace Acme.Center.Platform.Resources.Errors;
+namespace FreshGuard.ColdTrack.Platform.Resources.Errors;
 
 public class ErrorMessages
 {

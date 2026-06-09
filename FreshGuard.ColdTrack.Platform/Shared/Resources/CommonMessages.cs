@@ -1,4 +1,4 @@
-namespace Acme.Center.Platform.Resources.Shared;
+namespace FreshGuard.ColdTrack.Platform.Resources.Shared;
 
 public class CommonMessages
 {

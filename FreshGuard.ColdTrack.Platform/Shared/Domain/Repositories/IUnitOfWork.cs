@@ -1,15 +1,14 @@
-namespace CatchUpPlatform.API.Shared.Domain.Repositories;
+namespace FreshGuard.ColdTrack.Platform.Shared.Domain.Repositories;
 
 /// <summary>
-///     Unit of work interface
+///     Unit of work interface for all repositories
 /// </summary>
-/// <remarks>
-///     This interface defines the basic operations for a unit of work
-/// </remarks>
 public interface IUnitOfWork
 {
     /// <summary>
-    ///     Commit changes to the database
+    ///     Save changes to the repository
     /// </summary>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns></returns>
     Task CompleteAsync(CancellationToken cancellationToken = default);
 }
