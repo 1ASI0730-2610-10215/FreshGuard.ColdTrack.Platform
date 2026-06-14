@@ -21,6 +21,12 @@ using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.Internal.Quer
 using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.QueryServices;
 using FreshGuard.ColdTrack.Platform.ShipmentManagement.Domain.Repositories;
 using FreshGuard.ColdTrack.Platform.ShipmentManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Application.CommandServices;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Application.Internal.CommandServices;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Application.Internal.QueryServices;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Application.QueryServices;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Domain.Repositories;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -156,6 +162,12 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
 builder.Services.AddScoped<IShipmentCommandService, ShipmentCommandService>();
 builder.Services.AddScoped<IShipmentQueryService, ShipmentQueryService>();
+
+// Telemetry Monitoring Bounded Context
+builder.Services.AddScoped<ISensorRepository, SensorRepository>();
+builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
+builder.Services.AddScoped<ITelemetryCommandService, TelemetryCommandService>();
+builder.Services.AddScoped<ITelemetryQueryService, TelemetryQueryService>();
 
 // Mediator Configuration
 

@@ -2,6 +2,7 @@ using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Persistence.EntityFramewo
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 using FreshGuard.ColdTrack.Platform.ShipmentManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
@@ -39,5 +40,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.UseSnakeCaseNamingConvention();
         builder.ApplyIamConfiguration();
         builder.ApplyShipmentManagementConfiguration();
+        builder.ApplyTelemetryMonitoringConfiguration();
     }
 }
