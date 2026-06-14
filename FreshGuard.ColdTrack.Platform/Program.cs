@@ -1,4 +1,13 @@
 using System.Text;
+using FreshGuard.ColdTrack.Platform.Analytics.Application.CommandServices;
+using FreshGuard.ColdTrack.Platform.Analytics.Application.Internal.CommandServices;
+using FreshGuard.ColdTrack.Platform.Analytics.Application.Internal.QueryServices;
+using FreshGuard.ColdTrack.Platform.Analytics.Application.OutboundServices;
+using FreshGuard.ColdTrack.Platform.Analytics.Application.QueryServices;
+using FreshGuard.ColdTrack.Platform.Analytics.Domain.Repositories;
+using FreshGuard.ColdTrack.Platform.Analytics.Infrastructure.Documents.QuestPdf;
+using FreshGuard.ColdTrack.Platform.Analytics.Infrastructure.Persistence.EntityFrameworkCore.Queries;
+using FreshGuard.ColdTrack.Platform.Analytics.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using FreshGuard.ColdTrack.Platform.Alerting.Application.Acl;
 using FreshGuard.ColdTrack.Platform.Alerting.Application.CommandServices;
 using FreshGuard.ColdTrack.Platform.Alerting.Application.Internal.CommandServices;
@@ -43,9 +52,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using QuestPDF.Infrastructure;
 using ProblemDetailsFactory = FreshGuard.ColdTrack.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
 
 var builder = WebApplication.CreateBuilder(args);
+QuestPDF.Settings.License = LicenseType.Community;
 
 // Add services to the container.
 
@@ -187,6 +198,14 @@ builder.Services.AddSingleton(new ThresholdPolicy(
     builder.Configuration.GetValue<decimal>("MonitoringThresholds:MinimumTemperature"),
     builder.Configuration.GetValue<decimal>("MonitoringThresholds:MaximumTemperature"),
     builder.Configuration.GetValue<decimal>("MonitoringThresholds:MaximumHumidity")));
+
+// Analytics and Reporting Bounded Context
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IAnalyticsDataSource, AnalyticsDataSource>();
+builder.Services.AddScoped<IReportCommandService, ReportCommandService>();
+builder.Services.AddScoped<IAnalyticsQueryService, AnalyticsQueryService>();
+builder.Services.AddScoped<IReportFileService, ReportFileService>();
+builder.Services.AddSingleton<IPdfReportGenerator, PdfReportGenerator>();
 
 // Mediator Configuration
 
