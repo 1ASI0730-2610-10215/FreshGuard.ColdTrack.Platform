@@ -1,3 +1,4 @@
+using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 using Microsoft.EntityFrameworkCore;
@@ -35,5 +36,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
+        builder.ApplyIamConfiguration();
     }
 }
