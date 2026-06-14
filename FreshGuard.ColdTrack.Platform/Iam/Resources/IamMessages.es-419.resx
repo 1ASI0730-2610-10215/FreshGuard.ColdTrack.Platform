@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="InvalidCredentials" xml:space="preserve"><value>El correo o la contraseña son incorrectos.</value></data>
+  <data name="InvalidRole" xml:space="preserve"><value>El rol seleccionado no es válido.</value></data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve"><value>El correo ya está registrado.</value></data>
+  <data name="PasswordTooShort" xml:space="preserve"><value>La contraseña debe contener al menos ocho caracteres.</value></data>
+</root>
