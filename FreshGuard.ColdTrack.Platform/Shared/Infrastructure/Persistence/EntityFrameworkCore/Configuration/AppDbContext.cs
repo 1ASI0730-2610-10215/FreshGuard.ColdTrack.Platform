@@ -1,4 +1,5 @@
 using FreshGuard.ColdTrack.Platform.Alerting.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using FreshGuard.ColdTrack.Platform.Analytics.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
@@ -43,5 +44,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.ApplyShipmentManagementConfiguration();
         builder.ApplyTelemetryMonitoringConfiguration();
         builder.ApplyAlertingConfiguration();
+        builder.ApplyAnalyticsConfiguration();
     }
 }

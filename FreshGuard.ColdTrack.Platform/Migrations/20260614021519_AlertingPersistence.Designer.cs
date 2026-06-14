@@ -3,6 +3,7 @@ using System;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreshGuard.ColdTrack.Platform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260614021519_AlertingPersistence")]
+    partial class AlertingPersistence
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,54 +97,6 @@ namespace FreshGuard.ColdTrack.Platform.Migrations
                     b.HasIndex("ShipmentId", "Status");
 
                     b.ToTable("Alert");
-                });
-
-            modelBuilder.Entity("FreshGuard.ColdTrack.Platform.Analytics.Domain.Model.Aggregates.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("AverageHumidity")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal?>("AverageTemperature")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)");
-
-                    b.Property<int>("CompletedShipments")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTimeOffset>("GeneratedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("GeneratedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReportCode")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<int>("TotalAlerts")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalShipments")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportCode")
-                        .IsUnique();
-
-                    b.ToTable("Report");
                 });
 
             modelBuilder.Entity("FreshGuard.ColdTrack.Platform.Iam.Domain.Model.Aggregates.UserAccount", b =>
@@ -384,33 +339,6 @@ namespace FreshGuard.ColdTrack.Platform.Migrations
                         .HasDatabaseName("i_x_telemetry_logs_shipment_id_recorded_at");
 
                     b.ToTable("telemetry_logs", (string)null);
-                });
-
-            modelBuilder.Entity("FreshGuard.ColdTrack.Platform.Analytics.Domain.Model.Aggregates.Report", b =>
-                {
-                    b.OwnsOne("FreshGuard.ColdTrack.Platform.Analytics.Domain.Model.ValueObjects.DateRange", "Period", b1 =>
-                        {
-                            b1.Property<int>("ReportId")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTimeOffset>("End")
-                                .HasColumnType("datetime")
-                                .HasColumnName("period_end");
-
-                            b1.Property<DateTimeOffset>("Start")
-                                .HasColumnType("datetime")
-                                .HasColumnName("period_start");
-
-                            b1.HasKey("ReportId");
-
-                            b1.ToTable("Report");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ReportId");
-                        });
-
-                    b.Navigation("Period")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FreshGuard.ColdTrack.Platform.ShipmentManagement.Domain.Model.Entities.ShipmentStatusHistory", b =>

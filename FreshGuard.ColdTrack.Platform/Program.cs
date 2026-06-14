@@ -43,9 +43,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using QuestPDF.Infrastructure;
 using ProblemDetailsFactory = FreshGuard.ColdTrack.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
 
 var builder = WebApplication.CreateBuilder(args);
+QuestPDF.Settings.License = LicenseType.Community;
 
 // Add services to the container.
 
