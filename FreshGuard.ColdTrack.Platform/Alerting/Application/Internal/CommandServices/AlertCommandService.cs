@@ -10,15 +10,21 @@ namespace FreshGuard.ColdTrack.Platform.Alerting.Application.Internal.CommandSer
 
 public class AlertCommandService(IAlertRepository repository, IUnitOfWork unitOfWork) : IAlertCommandService
 {
-    public async Task<Result<Alert>> Handle(AcknowledgeAlertCommand command, CancellationToken cancellationToken)
+    public Task<Result<Alert>> Handle(AcknowledgeAlertCommand command, CancellationToken cancellationToken) =>
+        Update(command.AlertId, alert => alert.Acknowledge(), cancellationToken);
+
+    public Task<Result<Alert>> Handle(ResolveAlertCommand command, CancellationToken cancellationToken) =>
+        Update(command.AlertId, alert => alert.Resolve(command.UserId, command.Notes), cancellationToken);
+
+    private async Task<Result<Alert>> Update(int id, Action<Alert> action, CancellationToken cancellationToken)
     {
-        var alert = await repository.FindByIdAsync(command.AlertId, cancellationToken);
+        var alert = await repository.FindByIdAsync(id, cancellationToken);
         if (alert is null)
             return Result<Alert>.Failure(AlertingError.AlertNotFound, "The alert was not found.");
 
         try
         {
-            alert.Acknowledge();
+            action(alert);
         }
         catch (InvalidOperationException exception)
         {
