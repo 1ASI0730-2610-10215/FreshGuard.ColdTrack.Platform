@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="ShipmentNotFound" xml:space="preserve"><value>No se encontró el envío.</value></data>
+  <data name="InvalidShipmentStatus" xml:space="preserve"><value>El estado solicitado para el envío no es válido.</value></data>
+</root>
