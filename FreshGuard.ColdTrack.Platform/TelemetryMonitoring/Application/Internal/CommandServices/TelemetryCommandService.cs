@@ -1,3 +1,4 @@
+using FreshGuard.ColdTrack.Platform.Alerting.Interfaces.Acl;
 using FreshGuard.ColdTrack.Platform.Shared.Application.Model;
 using FreshGuard.ColdTrack.Platform.Shared.Domain.Repositories;
 using FreshGuard.ColdTrack.Platform.ShipmentManagement.Domain.Repositories;
@@ -11,7 +12,8 @@ using FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Domain.Repositories;
 namespace FreshGuard.ColdTrack.Platform.TelemetryMonitoring.Application.Internal.CommandServices;
 
 public class TelemetryCommandService(ISensorRepository sensorRepository, ITelemetryRepository telemetryRepository,
-    IShipmentRepository shipmentRepository, IUnitOfWork unitOfWork) : ITelemetryCommandService
+    IShipmentRepository shipmentRepository, IAlertingContextFacade alertingFacade, IUnitOfWork unitOfWork)
+    : ITelemetryCommandService
 {
     public async Task<Result<Sensor>> Handle(RegisterSensorCommand command, CancellationToken cancellationToken)
     {
@@ -68,6 +70,8 @@ public class TelemetryCommandService(ISensorRepository sensorRepository, ITeleme
             var log = new TelemetryLog(sensor.Id, sensor.ShipmentId.Value, command.Temperature, command.Humidity,
                 command.RecordedAt);
             await telemetryRepository.AddAsync(log, cancellationToken);
+            await alertingFacade.EvaluateTelemetryAsync(log.ShipmentId, log.SensorId, log.Temperature, log.Humidity,
+                cancellationToken);
             await unitOfWork.CompleteAsync(cancellationToken);
             return Result<TelemetryLog>.Success(log);
         }

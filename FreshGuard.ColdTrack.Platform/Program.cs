@@ -1,4 +1,13 @@
 using System.Text;
+using FreshGuard.ColdTrack.Platform.Alerting.Application.Acl;
+using FreshGuard.ColdTrack.Platform.Alerting.Application.CommandServices;
+using FreshGuard.ColdTrack.Platform.Alerting.Application.Internal.CommandServices;
+using FreshGuard.ColdTrack.Platform.Alerting.Application.Internal.QueryServices;
+using FreshGuard.ColdTrack.Platform.Alerting.Application.QueryServices;
+using FreshGuard.ColdTrack.Platform.Alerting.Domain.Model.Services;
+using FreshGuard.ColdTrack.Platform.Alerting.Domain.Repositories;
+using FreshGuard.ColdTrack.Platform.Alerting.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using FreshGuard.ColdTrack.Platform.Alerting.Interfaces.Acl;
 using FreshGuard.ColdTrack.Platform.Iam.Application.CommandServices;
 using FreshGuard.ColdTrack.Platform.Iam.Application.Internal.CommandServices;
 using FreshGuard.ColdTrack.Platform.Iam.Application.Internal.OutboundServices;
@@ -168,6 +177,16 @@ builder.Services.AddScoped<ISensorRepository, SensorRepository>();
 builder.Services.AddScoped<ITelemetryRepository, TelemetryRepository>();
 builder.Services.AddScoped<ITelemetryCommandService, TelemetryCommandService>();
 builder.Services.AddScoped<ITelemetryQueryService, TelemetryQueryService>();
+
+// Alerting Bounded Context
+builder.Services.AddScoped<IAlertRepository, AlertRepository>();
+builder.Services.AddScoped<IAlertCommandService, AlertCommandService>();
+builder.Services.AddScoped<IAlertQueryService, AlertQueryService>();
+builder.Services.AddScoped<IAlertingContextFacade, AlertingContextFacade>();
+builder.Services.AddSingleton(new ThresholdPolicy(
+    builder.Configuration.GetValue<decimal>("MonitoringThresholds:MinimumTemperature"),
+    builder.Configuration.GetValue<decimal>("MonitoringThresholds:MaximumTemperature"),
+    builder.Configuration.GetValue<decimal>("MonitoringThresholds:MaximumHumidity")));
 
 // Mediator Configuration
 
