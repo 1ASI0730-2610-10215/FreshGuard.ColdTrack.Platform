@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="ShipmentNotFound" xml:space="preserve"><value>The shipment was not found.</value></data>
+  <data name="InvalidShipmentStatus" xml:space="preserve"><value>The requested shipment status is invalid.</value></data>
+</root>
