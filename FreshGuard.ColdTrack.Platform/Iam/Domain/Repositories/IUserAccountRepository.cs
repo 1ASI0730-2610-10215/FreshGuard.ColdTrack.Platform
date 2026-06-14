@@ -8,5 +8,3 @@ public interface IUserAccountRepository : IBaseRepository<UserAccount>
     Task<UserAccount?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default);
     Task<bool> ExistsByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default);
 }
-
-

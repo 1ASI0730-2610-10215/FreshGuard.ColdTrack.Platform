@@ -29,5 +29,3 @@ public sealed record EmailAddress
 
     public override string ToString() => Value;
 }
-
-

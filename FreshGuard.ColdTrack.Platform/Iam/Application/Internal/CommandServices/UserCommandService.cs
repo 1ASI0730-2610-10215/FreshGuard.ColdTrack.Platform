@@ -48,5 +48,3 @@ public class UserCommandService(
         return Result<(UserAccount, string)>.Success((user, tokenService.Generate(user)));
     }
 }
-
-

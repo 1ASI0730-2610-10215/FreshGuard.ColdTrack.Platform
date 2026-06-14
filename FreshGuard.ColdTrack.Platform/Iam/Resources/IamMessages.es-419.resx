@@ -5,5 +5,3 @@
   <data name="EmailAlreadyRegistered" xml:space="preserve"><value>El correo ya está registrado.</value></data>
   <data name="PasswordTooShort" xml:space="preserve"><value>La contraseña debe contener al menos ocho caracteres.</value></data>
 </root>
-
-

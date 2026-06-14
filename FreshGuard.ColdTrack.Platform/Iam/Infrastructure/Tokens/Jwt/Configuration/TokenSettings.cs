@@ -8,5 +8,3 @@ public class TokenSettings
     public string Audience { get; set; } = string.Empty;
     public int ExpirationHours { get; set; } = 8;
 }
-
-

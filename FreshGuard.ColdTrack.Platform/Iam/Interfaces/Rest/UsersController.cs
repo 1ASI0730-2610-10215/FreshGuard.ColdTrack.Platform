@@ -27,5 +27,3 @@ public class UsersController(IUserAccountRepository repository) : ControllerBase
         return user is null ? NotFound() : Ok(UserResourceFromEntityAssembler.ToResource(user));
     }
 }
-
-

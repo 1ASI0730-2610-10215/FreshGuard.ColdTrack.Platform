@@ -46,5 +46,3 @@ public class AuthenticationController(IUserCommandService service) : ControllerB
             UserResourceFromEntityAssembler.ToResource(authenticated.User)));
     }
 }
-
-

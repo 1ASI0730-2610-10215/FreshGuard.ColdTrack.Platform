@@ -5,5 +5,3 @@
   <data name="EmailAlreadyRegistered" xml:space="preserve"><value>The email is already registered.</value></data>
   <data name="PasswordTooShort" xml:space="preserve"><value>The password must contain at least eight characters.</value></data>
 </root>
-
-

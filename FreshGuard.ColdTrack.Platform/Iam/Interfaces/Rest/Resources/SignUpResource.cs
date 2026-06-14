@@ -7,5 +7,3 @@ public record SignUpResource(
     [Required, EmailAddress, MaxLength(254)] string Email,
     [Required, MinLength(8)] string Password,
     [Required] string Role);
-
-

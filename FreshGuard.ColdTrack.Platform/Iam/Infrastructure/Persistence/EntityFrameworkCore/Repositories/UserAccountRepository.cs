@@ -21,5 +21,3 @@ public class UserAccountRepository(AppDbContext context) : BaseRepository<UserAc
         return Context.Set<UserAccount>().AnyAsync(user => user.Email == email, cancellationToken);
     }
 }
-
-

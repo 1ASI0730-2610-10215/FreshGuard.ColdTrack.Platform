@@ -9,5 +9,3 @@ public interface IUserCommandService
     Task<Result<UserAccount>> Handle(SignUpCommand command, CancellationToken cancellationToken);
     Task<Result<(UserAccount User, string Token)>> Handle(SignInCommand command, CancellationToken cancellationToken);
 }
-
-

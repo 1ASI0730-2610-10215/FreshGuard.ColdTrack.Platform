@@ -1,3 +1,12 @@
+using System.Text;
+using FreshGuard.ColdTrack.Platform.Iam.Application.CommandServices;
+using FreshGuard.ColdTrack.Platform.Iam.Application.Internal.CommandServices;
+using FreshGuard.ColdTrack.Platform.Iam.Application.Internal.OutboundServices;
+using FreshGuard.ColdTrack.Platform.Iam.Domain.Repositories;
+using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Hashing.BCrypt.Services;
+using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration;
+using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Tokens.Jwt.Services;
 using FreshGuard.ColdTrack.Platform.Resources.Errors;
 using FreshGuard.ColdTrack.Platform.Resources.Shared;
 using FreshGuard.ColdTrack.Platform.Shared.Domain.Repositories;
@@ -8,8 +17,10 @@ using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFram
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using ProblemDetailsFactory = FreshGuard.ColdTrack.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
 
@@ -56,6 +67,29 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection(TokenSettings.SectionName));
+var tokenSettings = builder.Configuration.GetSection(TokenSettings.SectionName).Get<TokenSettings>()
+                    ?? throw new InvalidOperationException("JWT settings are not configured.");
+var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSettings.Secret));
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = signingKey,
+            ValidateIssuer = true,
+            ValidIssuer = tokenSettings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = tokenSettings.Audience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+builder.Services.AddAuthorization();
 
 // Explicitly register IStringLocalizer for ErrorMessages and Commons
 builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, StringLocalizer<ErrorMessages>>();
@@ -106,6 +140,12 @@ builder.Services.AddSwaggerGen(options =>
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// IAM Bounded Context
+builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 // Mediator Configuration
 
 // Add Mediator Injection Configuration
@@ -118,8 +158,9 @@ builder.Services.AddCortexMediator(
 var app = builder.Build();
 
 // Apply pending migrations on startup (safe to call even when schema is up to date)
-using (var scope = app.Services.CreateScope())
+if (app.Configuration.GetValue("Database:InitializeOnStartup", true))
 {
+    using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
@@ -147,8 +188,11 @@ app.UseCors("AllowAllPolicy");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+public partial class Program;

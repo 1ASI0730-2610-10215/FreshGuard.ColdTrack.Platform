@@ -7,5 +7,3 @@ public class HashingService : IHashingService
     public string Hash(string value) => global::BCrypt.Net.BCrypt.HashPassword(value);
     public bool Verify(string value, string hash) => global::BCrypt.Net.BCrypt.Verify(value, hash);
 }
-
-

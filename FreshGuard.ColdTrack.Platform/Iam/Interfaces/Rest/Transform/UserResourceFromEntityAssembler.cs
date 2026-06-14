@@ -8,5 +8,3 @@ public static class UserResourceFromEntityAssembler
     public static UserResource ToResource(UserAccount user) =>
         new(user.Id, user.FullName, user.Email.Value, user.Role.ToString());
 }
-
-

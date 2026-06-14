@@ -29,5 +29,3 @@ public class TokenService(IOptions<TokenSettings> options) : ITokenService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
-
-

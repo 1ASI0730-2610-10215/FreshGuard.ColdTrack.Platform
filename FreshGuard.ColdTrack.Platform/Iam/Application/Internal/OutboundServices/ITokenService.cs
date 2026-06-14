@@ -6,5 +6,3 @@ public interface ITokenService
 {
     string Generate(UserAccount user);
 }
-
-
