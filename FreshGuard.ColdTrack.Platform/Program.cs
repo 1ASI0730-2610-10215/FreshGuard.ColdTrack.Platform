@@ -15,6 +15,12 @@ using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Mediator.Cortex.Config
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
+using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.CommandServices;
+using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.Internal.CommandServices;
+using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.Internal.QueryServices;
+using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.QueryServices;
+using FreshGuard.ColdTrack.Platform.ShipmentManagement.Domain.Repositories;
+using FreshGuard.ColdTrack.Platform.ShipmentManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -145,6 +151,11 @@ builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Shipment Management Bounded Context
+builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+builder.Services.AddScoped<IShipmentCommandService, ShipmentCommandService>();
+builder.Services.AddScoped<IShipmentQueryService, ShipmentQueryService>();
 
 // Mediator Configuration
 
