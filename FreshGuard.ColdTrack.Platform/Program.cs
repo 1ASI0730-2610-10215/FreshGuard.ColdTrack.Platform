@@ -59,6 +59,10 @@ using ProblemDetailsFactory = FreshGuard.ColdTrack.Platform.Shared.Interfaces.Re
 var builder = WebApplication.CreateBuilder(args);
 QuestPDF.Settings.License = LicenseType.Community;
 
+var renderPort = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(renderPort))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{renderPort}");
+
 // Add services to the container.
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
@@ -241,6 +245,9 @@ var localizationOptions = new RequestLocalizationOptions()
     .AddSupportedUICultures(supportedCultures);
 
 app.UseRequestLocalization(localizationOptions);
+
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }))
+    .AllowAnonymous();
 
 if (app.Environment.IsDevelopment())
 {

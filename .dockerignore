@@ -1,0 +1,13 @@
+.git
+.idea
+.ai
+bin
+obj
+**/bin
+**/obj
+*.user
+*.suo
+*.zip
+*.log
+database
+.local
