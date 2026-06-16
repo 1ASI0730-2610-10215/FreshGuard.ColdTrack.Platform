@@ -31,6 +31,7 @@ using FreshGuard.ColdTrack.Platform.Shared.Domain.Repositories;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Interfaces.AspNetCore.Configuration;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Initialization;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
 using FreshGuard.ColdTrack.Platform.ShipmentManagement.Application.CommandServices;
@@ -221,10 +222,13 @@ var app = builder.Build();
 // Apply pending migrations on startup (safe to call even when schema is up to date)
 if (app.Configuration.GetValue("Database:InitializeOnStartup", true))
 {
-    using var scope = app.Services.CreateScope();
+    await using var scope = app.Services.CreateAsyncScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
-    context.Database.Migrate();
+    await context.Database.MigrateAsync();
+
+    if (app.Configuration.GetValue("Database:SeedDemoData", true))
+        await DatabaseInitializer.SeedDemoDataAsync(services);
 }
 
 // Configure the HTTP request pipeline.
