@@ -1,13 +1,16 @@
 namespace FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Configuration;
 
 /// <summary>
-/// Loads local environment variables from a .env file before the application configuration is built.
+/// Loads local environment variables from the project environment file before the application configuration is built.
 /// </summary>
 /// <author>Codex OpenAI</author>
 public static class EnvFileLoader
 {
+    private const string PreferredFileName = "FreshGuard-ColdTrack-Platform.env";
+    private const string FallbackFileName = ".env";
+
     /// <summary>
-    /// Searches for a .env file from the current directory upward and loads each key-value pair.
+    /// Searches for the project environment file from the current directory upward and loads each key-value pair.
     /// Existing environment variables are preserved to avoid overriding Render configuration.
     /// </summary>
     public static void Load()
@@ -38,8 +41,11 @@ public static class EnvFileLoader
         var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
         while (directory is not null)
         {
-            var candidate = Path.Combine(directory.FullName, ".env");
+            var candidate = Path.Combine(directory.FullName, PreferredFileName);
             if (File.Exists(candidate)) return candidate;
+
+            var fallback = Path.Combine(directory.FullName, FallbackFileName);
+            if (File.Exists(fallback)) return fallback;
 
             directory = directory.Parent;
         }
