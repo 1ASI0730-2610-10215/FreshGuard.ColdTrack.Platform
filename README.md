@@ -57,7 +57,7 @@ TokenSettings__Audience=ColdTrack.WebApplication
 The production connection string is defined with placeholders in `appsettings.Production.json` and requires SSL:
 
 ```text
-server=%DATABASE_HOST%;port=%DATABASE_PORT%;database=%DATABASE_NAME%;user=%DATABASE_USER%;password=%DATABASE_PASSWORD%;SslMode=Required
+server=%DATABASE_HOST%;port=%DATABASE_PORT%;database=%DATABASE_NAME%;user=%DATABASE_USER%;password=%DATABASE_PASSWORD%;SslMode=Required;Allow User Variables=True
 ```
 
 For the Filess.io instance prepared for this project, only copy the password directly from the Filess.io dashboard into `DATABASE_PASSWORD`. Keep JWT values in Render variables using the `TokenSettings__` prefix because ASP.NET Core maps double underscores to nested configuration keys.

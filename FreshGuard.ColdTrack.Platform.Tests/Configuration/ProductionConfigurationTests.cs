@@ -12,6 +12,7 @@ public class ProductionConfigurationTests
         Assert.Contains("%DATABASE_HOST%", content);
         Assert.Contains("%DATABASE_PASSWORD%", content);
         Assert.Contains("SslMode=Required", content);
+        Assert.Contains("Allow User Variables=True", content);
         Assert.DoesNotContain(".filess.io", content);
     }
 }
