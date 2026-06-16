@@ -28,6 +28,7 @@ using FreshGuard.ColdTrack.Platform.Iam.Infrastructure.Tokens.Jwt.Services;
 using FreshGuard.ColdTrack.Platform.Resources.Errors;
 using FreshGuard.ColdTrack.Platform.Resources.Shared;
 using FreshGuard.ColdTrack.Platform.Shared.Domain.Repositories;
+using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Configuration;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Interfaces.AspNetCore.Configuration;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using FreshGuard.ColdTrack.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
@@ -55,6 +56,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using QuestPDF.Infrastructure;
 using ProblemDetailsFactory = FreshGuard.ColdTrack.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
+
+EnvFileLoader.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 QuestPDF.Settings.License = LicenseType.Community;

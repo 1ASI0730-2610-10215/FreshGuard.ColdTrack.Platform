@@ -6,6 +6,9 @@ riderModule.iml
 .idea/
 .ai/
 .local/
+.env
+.env.*
+!.env.example
 *.user
 *.suo
 *.log
