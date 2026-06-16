@@ -6,9 +6,10 @@ riderModule.iml
 .idea/
 .ai/
 .local/
+FreshGuard-ColdTrack-Platform.env
 .env
 .env.*
-!.env.example
+!FreshGuard-ColdTrack-Platform.env.example
 *.user
 *.suo
 *.log

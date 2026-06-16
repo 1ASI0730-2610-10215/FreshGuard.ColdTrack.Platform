@@ -19,7 +19,7 @@ FreshGuard ColdTrack Platform is an ASP.NET Core RESTful API for cold-chain ship
 
 ## Local Development
 
-Configure `FreshGuard.ColdTrack.Platform/appsettings.Development.json` or create a local `.env` file from `.env.example` to override the production-ready environment variables. The `.env` file is ignored by Git because it may contain secrets.
+Configure `FreshGuard.ColdTrack.Platform/appsettings.Development.json` or create a local `FreshGuard-ColdTrack-Platform.env` file from `FreshGuard-ColdTrack-Platform.env.example` to override the production-ready environment variables. The local environment file is ignored by Git because it may contain secrets.
 
 ```powershell
 dotnet restore
