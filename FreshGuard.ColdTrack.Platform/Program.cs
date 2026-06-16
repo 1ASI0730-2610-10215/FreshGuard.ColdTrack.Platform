@@ -249,7 +249,7 @@ app.UseRequestLocalization(localizationOptions);
 app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }))
     .AllowAnonymous();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue("Swagger:Enabled", false))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
