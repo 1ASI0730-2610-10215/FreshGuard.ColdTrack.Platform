@@ -44,14 +44,14 @@ Create a Docker Web Service in Render and configure the environment variables ma
 
 ```text
 ASPNETCORE_ENVIRONMENT=Production
-DATABASE_HOST=<Filess.io host>
-DATABASE_PORT=<Filess.io port>
-DATABASE_NAME=<Filess.io database name>
-DATABASE_USER=<Filess.io user>
+DATABASE_HOST=xx0uzg.h.filess.io
+DATABASE_PORT=3307
+DATABASE_NAME=coldtrack_platform_centerill
+DATABASE_USER=coldtrack_platform_centerill
 DATABASE_PASSWORD=<Filess.io password>
-JWT_SECRET=<long secure secret>
-JWT_ISSUER=FreshGuard.ColdTrack.Platform
-JWT_AUDIENCE=ColdTrack.WebApplication
+TokenSettings__Secret=<long secure secret>
+TokenSettings__Issuer=FreshGuard.ColdTrack.Platform
+TokenSettings__Audience=ColdTrack.WebApplication
 ```
 
 The production connection string is defined with placeholders in `appsettings.Production.json` and requires SSL:
@@ -60,7 +60,7 @@ The production connection string is defined with placeholders in `appsettings.Pr
 server=%DATABASE_HOST%;port=%DATABASE_PORT%;database=%DATABASE_NAME%;user=%DATABASE_USER%;password=%DATABASE_PASSWORD%;SslMode=Required
 ```
 
-For the Filess.io instance prepared for this project, copy the host, port, database name, user, and password directly from the Filess.io dashboard into Render variables.
+For the Filess.io instance prepared for this project, only copy the password directly from the Filess.io dashboard into `DATABASE_PASSWORD`. Keep JWT values in Render variables using the `TokenSettings__` prefix because ASP.NET Core maps double underscores to nested configuration keys.
 
 ## Production Endpoints
 
