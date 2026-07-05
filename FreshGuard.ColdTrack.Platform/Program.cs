@@ -76,12 +76,20 @@ builder.Services.AddControllers(options => options.Conventions.Add(new KebabCase
 builder.Services.AddProblemDetails();
 
 // Add CORS Policy
+var allowedCorsOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+                         ?? Array.Empty<string>();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllPolicy",
-        policy => policy.AllowAnyOrigin()
+    options.AddPolicy("ColdTrackCorsPolicy", policy =>
+    {
+        if (allowedCorsOrigins.Length == 0)
+            throw new InvalidOperationException("CORS allowed origins are not configured.");
+
+        policy.WithOrigins(allowedCorsOrigins)
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader();
+    });
 });
 
 // Add Database Connection
@@ -259,7 +267,7 @@ if (app.Environment.IsDevelopment() || app.Configuration.GetValue("Swagger:Enabl
 }
 
 // Apply CORS Policy
-app.UseCors("AllowAllPolicy");
+app.UseCors("ColdTrackCorsPolicy");
 
 app.UseHttpsRedirection();
 
